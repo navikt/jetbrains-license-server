@@ -1,0 +1,86 @@
+---
+- name: Create the JetBrains licensing server group
+  group:
+    name: "{{ jb_licensing_server_group }}"
+    state: present
+
+- name: Create the Jetbrains licensing server user
+  user:
+    name: "{{ jb_licensing_server_user }}"
+    group: "{{ jb_licensing_server_group }}"
+    home: "{{ jb_licensing_server_home }}"
+    state: present
+    createhome: no
+
+- name: Prepare the directory structure
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ jb_licensing_server_user }}"
+    group: "{{ jb_licensing_server_group }}"
+    mode: 0755
+  with_items:
+    - "{{ jb_licensing_server_install_base }}"
+    - "{{ jb_licensing_server_home }}"
+
+- name: Download and unarchive the licensing server
+  unarchive:
+    src: "{{ jb_licensing_server_download_url }}"
+    dest: "{{ jb_licensing_server_home }}"
+    owner: "{{ jb_licensing_server_user }}"
+    group: "{{ jb_licensing_server_group }}"
+    copy: no
+
+- name: Symlink logs to regular place
+  file:
+    src: "{{ jb_licensing_server_home }}/logs"
+    dest: /var/log/jetbrains
+    state: link
+    force: yes
+
+- name: configure listen http server
+  command: >
+    {{ jb_licensing_server_home }}/bin/license-server.sh configure
+        --listen {{ jb_licensing_server_listen_address }}
+        --port {{ jb_licensing_server_port }}
+        --context {{ jb_licensing_server_context }}
+
+- name: configure virtual host
+  command: "{{ jb_licensing_server_home }}/bin/license-server.sh configure --jetty.virtualHosts.names={{ jb_licensing_server_virtualhost }}"
+  when:
+    - jb_licensing_server_virtualhost != ""
+
+- name: configure stats token
+  command: "{{ jb_licensing_server_home }}/bin/license-server.sh configure --reporting.token {{ jb_licensing_server_stats_token }}"
+  when:
+    - jb_licensing_server_stats_token != ""
+
+- name: configure proxy
+  command: >
+    {{ jb_licensing_server_home }}/bin/license-server.sh configure
+        --https.proxyHost {{ jb_licensing_server_http_proxy_host }}
+        --http.proxyHost {{ jb_licensing_server_http_proxy_host }}
+        --https.proxyPort {{ jb_licensing_server_http_proxy_port }}
+        --http.proxyPort {{ jb_licensing_server_http_proxy_port }}
+  when:
+    - jb_licensing_server_http_proxy_host != ""
+    - jb_licensing_server_http_proxy_port != ""
+
+- name: fix ownership
+  file:
+    path: "{{ jb_licensing_server_home }}"
+    owner: "{{ jb_licensing_server_user }}"
+    group: "{{ jb_licensing_server_group }}"
+    recurse: yes
+
+- name: Setup license server in systemd
+  template:
+    src: jetbrains-license-server.service.j2
+    dest: /etc/systemd/system/jetbrains-license-server.service
+    mode: 0755
+
+- name: Ensure licensing server is up and running
+  service:
+    name: jetbrains-license-server
+    state: started
+    enabled: yes
