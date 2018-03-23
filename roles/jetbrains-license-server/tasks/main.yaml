@@ -38,6 +38,11 @@
     state: link
     force: yes
 
+- name: stop service if running
+  service:
+    name: jetbrains-license-server
+    state: stopped
+
 - name: configure listen http server
   command: >
     {{ jb_licensing_server_home }}/bin/license-server.sh configure
