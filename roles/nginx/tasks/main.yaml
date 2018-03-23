@@ -14,7 +14,10 @@
   notify: reload nginx
 
 - name: allow nginx to connect to proxy
-  command: setsebool -P httpd_can_network_connect true
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
 
 - name: Start and enable nginx service
   service:
