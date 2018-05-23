@@ -1,7 +1,7 @@
 Jetbrains Server
 ================
 
-This repo contains a playbook for setting up our Jetbrains server which currently hosts [License server](https://www.jetbrains.com/help/license_server/getting_started.html).
+This repo contains a playbook for setting up our Jetbrains server which currently hosts [License server](https://www.jetbrains.com/help/license_server/getting_started.html) and [Hub](https://www.jetbrains.com/hub/).
 
 ## Installation
 
@@ -25,3 +25,6 @@ This repo contains a playbook for setting up our Jetbrains server which currentl
 
 ### License server
  * Go to [https://jetbrains.adeo.no/licenses](https://jetbrains.adeo.no/licenses) and continue registration.
+
+### Hub
+ * Go to [https://jetbrains.adeo.no/hub](https://jetbrains.adeo.no/hub) and continue setup.

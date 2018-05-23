@@ -1,0 +1,13 @@
+[Unit]
+Description=Jetbrains Hub Server
+After=network.target
+
+[Service]
+Type=forking
+User={{ jb_hub_user }}
+ExecStart={{ jb_hub_home }}/bin/hub.sh start --no-browser
+ExecStop={{ jb_hub_home }}/bin/hub.sh stop
+ExecReload={{ jb_hub_home }}/bin/hub.sh restart
+
+[Install]
+WantedBy=multi-user.target

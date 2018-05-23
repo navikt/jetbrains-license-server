@@ -1,0 +1,66 @@
+---
+- name: Create the JetBrains hub group
+  group:
+    name: "{{ jb_hub_user }}"
+    state: present
+
+- name: Create the Jetbrains hub user
+  user:
+    name: "{{ jb_hub_user }}"
+    group: "{{ jb_hub_group }}"
+    home: "{{ jb_hub_home }}"
+    state: present
+    createhome: no
+
+- name: Prepare the directory structure
+  file:
+    path: "{{ jb_hub_home }}"
+    state: directory
+    owner: "{{ jb_hub_user }}"
+    group: "{{ jb_hub_group }}"
+    mode: 0755
+
+- name: Download and unarchive the licensing server
+  unarchive:
+    src: "{{ jb_hub_download_url }}"
+    dest: "{{ jb_hub_home }}"
+    owner: "{{ jb_hub_user }}"
+    group: "{{ jb_hub_group }}"
+    copy: no
+
+- name: Symlink logs to regular place
+  file:
+    src: "{{ jb_hub_home }}/logs"
+    dest: /var/log/jetbrains
+    state: link
+    force: yes
+
+- name: stop service if running
+  service:
+    name: jetbrains-hub
+    state: stopped
+
+- name: configure listen http server
+  command: >
+    {{ jb_licensing_server_home }}/bin/hub.sh configure
+        --listen-port {{ jb_hub_port }}
+        --base-url {{ jb_hub_baseurl }}
+
+- name: fix ownership
+  file:
+    path: "{{ jb_hub_home }}"
+    owner: "{{ jb_hub_user }}"
+    group: "{{ jb_hub_group }}"
+    recurse: yes
+
+- name: Setup hub server in systemd
+  template:
+    src: jetbrains-hub.service.j2
+    dest: /etc/systemd/system/jetbrains-hub.service
+    mode: 0755
+
+- name: Ensure hub server is up and running
+  service:
+    name: jetbrains-hub
+    state: started
+    enabled: yes

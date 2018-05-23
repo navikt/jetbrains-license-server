@@ -1,0 +1,8 @@
+---
+jb_hub_user: jbserver
+jb_hub_group: jbserver
+jb_hub_download_url: https://download.jetbrains.com/hub/hub-2018.1.9292.zip
+jb_hub_install_base: /usr/local/jetbrains
+jb_hub_home: "{{ jb_licensing_server_install_base }}/hub"
+jb_hub_port: 8080
+jb_hub_baseurl: "http://localhost:{{ jb_hub_port }}"
