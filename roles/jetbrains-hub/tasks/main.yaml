@@ -4,13 +4,13 @@
     name: "{{ jb_hub_user }}"
     state: present
 
-- name: Create the Jetbrains hub user
-  user:
-    name: "{{ jb_hub_user }}"
-    group: "{{ jb_hub_group }}"
-    home: "{{ jb_hub_home }}"
-    state: present
-    createhome: no
+#- name: Create the Jetbrains hub user
+#  user:
+#    name: "{{ jb_hub_user }}"
+#    group: "{{ jb_hub_group }}"
+#    home: "{{ jb_hub_home }}"
+#    state: present
+#    createhome: no
 
 - name: Prepare the directory structure
   file:
@@ -35,6 +35,12 @@
     state: link
     force: yes
 
+- name: Setup hub server in systemd
+  template:
+    src: jetbrains-hub.service.j2
+    dest: /etc/systemd/system/jetbrains-hub.service
+    mode: 0755
+
 - name: stop service if running
   service:
     name: jetbrains-hub
@@ -52,12 +58,6 @@
     owner: "{{ jb_hub_user }}"
     group: "{{ jb_hub_group }}"
     recurse: yes
-
-- name: Setup hub server in systemd
-  template:
-    src: jetbrains-hub.service.j2
-    dest: /etc/systemd/system/jetbrains-hub.service
-    mode: 0755
 
 - name: Ensure hub server is up and running
   service:
