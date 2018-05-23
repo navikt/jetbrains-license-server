@@ -48,7 +48,7 @@
 
 - name: configure listen http server
   command: >
-    {{ jb_licensing_server_home }}/bin/hub.sh configure
+    {{ jb_hub_home }}/bin/hub.sh configure
         --listen-port {{ jb_hub_port }}
         --base-url {{ jb_hub_baseurl }}
 
