@@ -20,7 +20,7 @@
     group: "{{ jb_hub_group }}"
     mode: 0755
 
-- name: Download and unarchive the licensing server
+- name: Download and unarchive the hub server
   unarchive:
     src: "{{ jb_hub_download_url }}"
     dest: "{{ jb_hub_home }}"
