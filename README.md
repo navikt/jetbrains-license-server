@@ -1,5 +1,7 @@
-Jetbrains License Server
-========================
+Jetbrains Server
+================
+
+This repo contains a playbook for setting up our Jetbrains server which currently hosts [License server](https://www.jetbrains.com/help/license_server/getting_started.html).
 
 ## Installation
 
@@ -12,11 +14,14 @@ Jetbrains License Server
     ```
     HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088 \
       git clone -c http.sslVerify=false \
-      https://github.com/navikt/jetbrains-license-server.git
+      https://github.com/navikt/jetbrains-server.git
     
-    cd jetbrains-license-server
+    cd jetbrains-server
     
     ansible-playbook -i inventory setup-playbook.yaml
     ```
 
-4. Go to [https://jetbrains.adeo.no](https://jetbrains.adeo.no) and continue registration.
+4. Continue with the installation of the different products:
+
+### License server
+ * Go to [https://jetbrains.adeo.no/licenses](https://jetbrains.adeo.no/licenses) and continue registration.
