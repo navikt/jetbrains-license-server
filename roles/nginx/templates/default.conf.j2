@@ -16,7 +16,7 @@ server {
         proxy_set_header    Host                $host;
         proxy_set_header    X-Forwarded-For     $remote_addr;
         proxy_set_header    X-Real-IP           $remote_addr;
-        proxy_pass          http://{{ jb_hub_listen_address }}:{{ jb_hub_port }}/;
+        proxy_pass          http://{{ jb_hub_listen_address }}:{{ jb_hub_port }};
     }
 
     location /upsource/ {
