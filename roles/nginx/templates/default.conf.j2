@@ -31,7 +31,7 @@ server {
             proxy_set_header Connection "upgrade";
             proxy_pass_header Sec-Websocket-Extensions;
 
-            proxy_pass          http://{{ jb_upsource_listen_address }}:{{ jb_upsource_port }}/;
+            proxy_pass          http://{{ jb_upsource_listen_address }}:{{ jb_upsource_port }};
         }
 
     location {{ jb_licensing_server_context }} {
