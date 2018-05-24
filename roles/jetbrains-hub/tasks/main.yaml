@@ -12,14 +12,6 @@
     state: present
     createhome: no
 
-- name: Prepare the directory structure
-  file:
-    path: "{{ jb_hub_home }}"
-    state: directory
-    owner: "{{ jb_hub_user }}"
-    group: "{{ jb_hub_group }}"
-    mode: 0755
-
 - name: Download and unarchive the hub server
   unarchive:
     src: "{{ jb_hub_download_url }}"
@@ -28,13 +20,13 @@
     group: "{{ jb_hub_group }}"
     copy: no
 
-- name: Rename directory
+- name: Move contents of directory
   command: mv "{{ jb_hub_install_base }}/{{ jb_hub_download_dirname }}" "{{ jb_hub_home }}"
 
 - name: Symlink logs to regular place
   file:
     src: "{{ jb_hub_home }}/logs"
-    dest: /var/log/jetbrains
+    dest: /var/log/jetbrains-hub
     state: link
     force: yes
 
