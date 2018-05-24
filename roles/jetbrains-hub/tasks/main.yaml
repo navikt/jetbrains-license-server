@@ -23,10 +23,13 @@
 - name: Download and unarchive the hub server
   unarchive:
     src: "{{ jb_hub_download_url }}"
-    dest: "{{ jb_hub_home }}"
+    dest: "{{ jb_hub_install_base }}"
     owner: "{{ jb_hub_user }}"
     group: "{{ jb_hub_group }}"
     copy: no
+
+- name: Rename directory
+  command: mv "{{ jb_hub_install_base }}/{{ jb_hub_download_dirname }}" "{{ jb_hub_home }}"
 
 - name: Symlink logs to regular place
   file:
