@@ -1,6 +1,5 @@
 [all:vars]
 jb_licensing_server_virtualhost=jetbrains.adeo.no
-jb_licensing_server_listen_address=127.0.0.1
 jb_licensing_server_context=/licenses
 jb_licensing_server_stats_token=foobar1234
 jb_licensing_server_http_proxy_host=webproxy-utvikler.nav.no
