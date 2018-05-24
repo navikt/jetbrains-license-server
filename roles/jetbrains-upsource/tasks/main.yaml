@@ -41,28 +41,28 @@
     name: jetbrains-upsource
     state: stopped
 
-- name: configure security limits: nofile
+- name: "configure security limits: nofile"
   pam_limits:
     domain: "{{ jb_upsource_user }}"
     limit_type: hard
     limit_item: nofile
     value: 100000
 
-- name: configure security limits: memlock
+- name: "configure security limits: memlock"
   pam_limits:
     domain: "{{ jb_upsource_user }}"
     limit_type: '-'
     limit_item: memlock
     value: unlimited
 
-- name: configure security limits: nproc
+- name: "configure security limits: nproc"
   pam_limits:
     domain: "{{ jb_upsource_user }}"
     limit_type: hard
     limit_item: nproc
     value: 32768
 
-- name: configure security limits: as
+- name: "configure security limits: as"
   pam_limits:
     domain: "{{ jb_upsource_user }}"
     limit_type: hard
