@@ -5,3 +5,5 @@
     - nginx
     - java
     - jetbrains-license-server
+    - jetbrains-hub
+    - jetbrains-upsource
