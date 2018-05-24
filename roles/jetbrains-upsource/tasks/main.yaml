@@ -15,7 +15,7 @@
 - name: Download and unarchive the upsource server
   unarchive:
     src: "{{ jb_upsource_download_url }}"
-    dest: "{{ jb_upsource_home }}"
+    dest: "{{ jb_upsource_install_base }}"
     owner: "{{ jb_upsource_user }}"
     group: "{{ jb_upsource_group }}"
     copy: no
