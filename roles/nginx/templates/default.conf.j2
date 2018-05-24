@@ -16,8 +16,23 @@ server {
         proxy_set_header    Host                $host;
         proxy_set_header    X-Forwarded-For     $remote_addr;
         proxy_set_header    X-Real-IP           $remote_addr;
-        proxy_pass          http://127.0.0.1:{{ jb_hub_port }}/;
+        proxy_pass          http://{{ jb_hub_listen_address }}:{{ jb_hub_port }}/;
     }
+
+    location /upsource/ {
+            proxy_set_header    X-Forwarded-Host    $http_host;
+            proxy_set_header    X-Forwarded-Proto   https;
+            proxy_http_version  1.1;
+            proxy_set_header    Host                $host;
+            proxy_set_header    X-Forwarded-For     $remote_addr;
+            proxy_set_header    X-Real-IP           $remote_addr;
+
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass_header Sec-Websocket-Extensions;
+
+            proxy_pass          http://{{ jb_upsource_listen_address }}:{{ jb_upsource_port }}/;
+        }
 
     location {{ jb_licensing_server_context }} {
         proxy_set_header    X-Forwarded-Host    $http_host;

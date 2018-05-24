@@ -1,0 +1,10 @@
+---
+jb_upsource_user: jbupsource
+jb_upsource_group: jbupsource
+jb_upsource_download_url: https://download.jetbrains.com/upsource/upsource-2018.1.357.zip
+jb_upsource_download_dirname: upsource-2018.1.357
+jb_upsource_install_base: /usr/local/jetbrains
+jb_upsource_home: "{{ jb_upsource_install_base }}/upsource"
+jb_upsource_listen_address: "127.0.0.1"
+jb_upsource_port: 8080
+jb_upsource_baseurl: "http://localhost:{{ jb_upsource_port }}"

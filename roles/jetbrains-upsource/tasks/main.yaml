@@ -1,0 +1,90 @@
+---
+- name: Create the JetBrains upsource group
+  group:
+    name: "{{ jb_upsource_user }}"
+    state: present
+
+- name: Create the Jetbrains upsource user
+  user:
+    name: "{{ jb_upsource_user }}"
+    group: "{{ jb_upsource_group }}"
+    home: "{{ jb_upsource_home }}"
+    state: present
+    createhome: no
+
+- name: Download and unarchive the upsource server
+  unarchive:
+    src: "{{ jb_upsource_download_url }}"
+    dest: "{{ jb_upsource_home }}"
+    owner: "{{ jb_upsource_user }}"
+    group: "{{ jb_upsource_group }}"
+    copy: no
+
+- name: Move contents of directory
+  command: mv "{{ jb_upsource_install_base }}/{{ jb_upsource_download_dirname }}" "{{ jb_upsource_home }}"
+
+- name: Symlink logs to regular place
+  file:
+    src: "{{ jb_upsource_home }}/logs"
+    dest: /var/log/jetbrains-upsource
+    state: link
+    force: yes
+
+- name: Setup upsource server in systemd
+  template:
+    src: jetbrains-hub.service.j2
+    dest: /etc/systemd/system/jetbrains-upsource.service
+    mode: 0755
+
+- name: stop service if running
+  service:
+    name: jetbrains-upsource
+    state: stopped
+
+- name: configure security limits: nofile
+  pam_limits:
+    domain: "{{ jb_upsource_user }}"
+    limit_type: hard
+    limit_item: nofile
+    value: 100000
+
+- name: configure security limits: memlock
+  pam_limits:
+    domain: "{{ jb_upsource_user }}"
+    limit_type: '-'
+    limit_item: memlock
+    value: unlimited
+
+- name: configure security limits: nproc
+  pam_limits:
+    domain: "{{ jb_upsource_user }}"
+    limit_type: hard
+    limit_item: nproc
+    value: 32768
+
+- name: configure security limits: as
+  pam_limits:
+    domain: "{{ jb_upsource_user }}"
+    limit_type: hard
+    limit_item: as
+    value: unlimited
+
+- name: configure listen http server
+  command: >
+    {{ jb_upsource_home }}/bin/upsource.sh configure
+        --listen-port {{ jb_upsource_port }}
+        --listen-address {{ jb_upsource_listen_address }}
+        --base-url {{ jb_upsource_baseurl }}
+
+- name: fix ownership
+  file:
+    path: "{{ jb_upsource_home }}"
+    owner: "{{ jb_upsource_user }}"
+    group: "{{ jb_upsource_group }}"
+    recurse: yes
+
+- name: Ensure upsource server is up and running
+  service:
+    name: jetbrains-upsource
+    state: started
+    enabled: yes

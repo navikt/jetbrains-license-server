@@ -1,0 +1,13 @@
+[Unit]
+Description=Jetbrains Upsource Server
+After=network.target
+
+[Service]
+Type=forking
+User={{ jb_upsource_user }}
+ExecStart={{ jb_upsource_home }}/bin/upsource.sh start --no-browser
+ExecStop={{ jb_upsource_home }}/bin/upsource.sh stop
+ExecReload={{ jb_upsource_home }}/bin/upsource.sh restart
+
+[Install]
+WantedBy=multi-user.target
