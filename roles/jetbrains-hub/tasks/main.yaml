@@ -4,13 +4,13 @@
     name: "{{ jb_hub_user }}"
     state: present
 
-#- name: Create the Jetbrains hub user
-#  user:
-#    name: "{{ jb_hub_user }}"
-#    group: "{{ jb_hub_group }}"
-#    home: "{{ jb_hub_home }}"
-#    state: present
-#    createhome: no
+- name: Create the Jetbrains hub user
+  user:
+    name: "{{ jb_hub_user }}"
+    group: "{{ jb_hub_group }}"
+    home: "{{ jb_hub_home }}"
+    state: present
+    createhome: no
 
 - name: Prepare the directory structure
   file:
@@ -50,6 +50,7 @@
   command: >
     {{ jb_hub_home }}/bin/hub.sh configure
         --listen-port {{ jb_hub_port }}
+        --listen-address {{ jb_hub_listen_address }}
         --base-url {{ jb_hub_baseurl }}
 
 - name: fix ownership

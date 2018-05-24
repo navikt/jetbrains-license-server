@@ -5,7 +5,7 @@ jb_licensing_server_download_url: https://download-cf.jetbrains.com/lcsrv/licens
 jb_licensing_server_install_base: /usr/local/jetbrains
 jb_licensing_server_home: "{{ jb_licensing_server_install_base }}/license-server"
 jb_licensing_server_virtualhost: ""
-jb_licensing_server_listen_address: "0.0.0.0"
+jb_licensing_server_listen_address: "127.0.0.1"
 jb_licensing_server_context: "/"
 jb_licensing_server_port: 8080
 jb_licensing_server_stats_token: ""
