@@ -16,7 +16,7 @@
   shell: >
     certbot certonly --standalone --noninteractive --agree-tos
       --email {{ cert_item.email | default(certbot_admin_email) }}
-      -d {{ cert_item.domains | join(',') }}"
+      -d "{{ cert_item.domains | join(',') }}"
   when: not letsencrypt_cert.stat.exists
 
 - name: Start services after cert has been generated.
