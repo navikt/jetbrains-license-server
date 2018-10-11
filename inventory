@@ -8,12 +8,7 @@ jb_hub_baseurl=https://hub.jetbrains.gc.nav.no
 jb_upsource_port=8082
 jb_upsource_baseurl=https://upsource.jetbrains.gc.nav.no
 
-certbot_admin_email: admin.email@nav.no
-certbot_certs:
- - domains:
-     - license.jetbrains.gc.nav.no
-     - hub.jetbrains.gc.nav.no
-     - upsource.jetbrains.gc.nav.no
+certbot_admin_email=admin.email@nav.no
 
 [jetbrains-license-server]
 localhost ansible_connection=local ansible_become_method=sudo

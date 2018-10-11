@@ -1,11 +1,6 @@
 server {
-    listen       443 ssl;
+    listen       80;
     server_name hub.jetbrains.gc.nav.no;
-
-    ssl_certificate /etc/letsencrypt/live/hub.jetbrains.gc.nav.no/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/hub.jetbrains.gc.nav.no/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
         proxy_set_header    X-Forwarded-Host    $http_host;
@@ -19,13 +14,8 @@ server {
 }
 
 server {
-    listen 443 ssl;
+    listen 80;
     server_name upsource.jetbrains.gc.nav.no;
-
-    ssl_certificate /etc/letsencrypt/live/upsource.jetbrains.gc.nav.no/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/upsource.jetbrains.gc.nav.no/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
             proxy_set_header    X-Forwarded-Host    $http_host;
@@ -44,13 +34,8 @@ server {
 }
 
 server {
-    listen 443 ssl;
+    listen 80;
     server_name license.jetbrains.gc.nav.no;
-
-    ssl_certificate /etc/letsencrypt/live/license.jetbrains.gc.nav.no/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/license.jetbrains.gc.nav.no/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
         proxy_set_header    X-Forwarded-Host    $http_host;
