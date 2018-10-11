@@ -1,0 +1,9 @@
+---
+certbot_admin_email: email@example.com
+certbot_certs: []
+# - email: janedoe@example.com
+#   domains:
+#     - example1.com
+#     - example2.com
+# - domains:
+#     - example3.com

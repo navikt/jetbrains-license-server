@@ -1,19 +1,19 @@
 [all:vars]
-jb_licensing_server_virtualhost=jetbrains.adeo.no
-jb_licensing_server_context=/licenses
+jb_licensing_server_virtualhost=licenses.jetbrains.gc.nav.no
 jb_licensing_server_stats_token=foobar1234
-jb_licensing_server_http_proxy_host=webproxy-internett.nav.no
-jb_licensing_server_http_proxy_port=8088
 
 jb_hub_port=8081
-jb_hub_baseurl=https://jetbrains.adeo.no/hub
+jb_hub_baseurl=https://hub.jetbrains.gc.nav.no
 
 jb_upsource_port=8082
-jb_upsource_baseurl=https://jetbrains.adeo.no/upsource
+jb_upsource_baseurl=https://upsource.jetbrains.gc.nav.no
 
-http_proxy=http://webproxy-internett.nav.no:8088
-no_proxy=localhost,127.0.0.1,.adeo.no,{{ansible_default_ipv4.address}}
-
+certbot_admin_email: admin.email@nav.no
+certbot_certs:
+ - domains:
+     - license.jetbrains.gc.nav.no
+     - hub.jetbrains.gc.nav.no
+     - upsource.jetbrains.gc.nav.no
 
 [jetbrains-license-server]
 localhost ansible_connection=local ansible_become_method=sudo

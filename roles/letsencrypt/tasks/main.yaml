@@ -1,0 +1,10 @@
+---
+- name: install certbot
+  yum:
+    name: python2-certbot-nginx
+    state: latest
+
+- include_tasks: create-certs.yml
+  with_items: "{{ certbot_certs }}"
+  loop_control:
+    loop_var: cert_item

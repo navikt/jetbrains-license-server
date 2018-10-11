@@ -1,8 +1,8 @@
 - hosts: all
   become: yes
   roles:
-    - proxy
     - nginx
+    - letsencrypt
     - java
     - jetbrains-license-server
     - jetbrains-hub
