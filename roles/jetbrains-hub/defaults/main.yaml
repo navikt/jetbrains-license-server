@@ -1,8 +1,8 @@
 ---
 jb_hub_user: jbhub
 jb_hub_group: jbhub
-jb_hub_download_url: https://download.jetbrains.com/hub/hub-2018.1.9292.zip
-jb_hub_download_dirname: "hub-2018.1.9292"
+jb_hub_download_url: https://download.jetbrains.com/hub/hub-2018.3.10830.zip
+jb_hub_download_dirname: "hub-2018.3.10830"
 jb_hub_install_base: /usr/local/jetbrains
 jb_hub_home: "{{ jb_hub_install_base }}/hub"
 jb_hub_listen_address: "127.0.0.1"
