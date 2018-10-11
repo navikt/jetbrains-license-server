@@ -4,7 +4,7 @@
     name: python2-certbot-nginx
     state: latest
 
-- include_tasks: create-certs.yml
+- include_tasks: create-certs.yaml
   with_items: "{{ certbot_certs }}"
   loop_control:
     loop_var: cert_item
