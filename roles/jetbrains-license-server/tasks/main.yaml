@@ -31,6 +31,14 @@
     group: "{{ jb_licensing_server_group }}"
     copy: no
 
+- name: Make sure logs dir exists
+  file:
+    path: "{{ jb_licensing_server_home }}/logs"
+    state: directory
+    owner: "{{ jb_licensing_server_user }}"
+    group: "{{ jb_licensing_server_group }}"
+    mode: 0755
+
 - name: Symlink logs to regular place
   file:
     src: "{{ jb_licensing_server_home }}/logs"
@@ -38,8 +46,18 @@
     state: link
     force: yes
 
+- name: Setup license server in systemd
+  template:
+    src: jetbrains-license-server.service.j2
+    dest: /etc/systemd/system/jetbrains-license-server.service
+    mode: 0755
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
 - name: stop service if running
-  service:
+  systemd:
     name: jetbrains-license-server
     state: stopped
 
@@ -78,14 +96,8 @@
     group: "{{ jb_licensing_server_group }}"
     recurse: yes
 
-- name: Setup license server in systemd
-  template:
-    src: jetbrains-license-server.service.j2
-    dest: /etc/systemd/system/jetbrains-license-server.service
-    mode: 0755
-
 - name: Ensure licensing server is up and running
-  service:
+  systemd:
     name: jetbrains-license-server
     state: started
     enabled: yes

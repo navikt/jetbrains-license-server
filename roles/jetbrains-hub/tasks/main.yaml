@@ -23,6 +23,14 @@
 - name: Move contents of directory
   command: mv "{{ jb_hub_install_base }}/{{ jb_hub_download_dirname }}" "{{ jb_hub_home }}"
 
+- name: Make sure logs dir exists
+  file:
+    path: "{{ jb_hub_home }}/logs"
+    state: directory
+    owner: "{{ jb_hub_user }}"
+    group: "{{ jb_hub_group }}"
+    mode: 0755
+
 - name: Symlink logs to regular place
   file:
     src: "{{ jb_hub_home }}/logs"
@@ -36,8 +44,12 @@
     dest: /etc/systemd/system/jetbrains-hub.service
     mode: 0755
 
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
 - name: stop service if running
-  service:
+  systemd:
     name: jetbrains-hub
     state: stopped
 
@@ -56,7 +68,7 @@
     recurse: yes
 
 - name: Ensure hub server is up and running
-  service:
+  systemd:
     name: jetbrains-hub
     state: started
     enabled: yes

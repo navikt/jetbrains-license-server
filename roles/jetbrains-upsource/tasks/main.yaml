@@ -23,6 +23,14 @@
 - name: Move contents of directory
   command: mv "{{ jb_upsource_install_base }}/{{ jb_upsource_download_dirname }}" "{{ jb_upsource_home }}"
 
+- name: Make sure logs dir exists
+  file:
+    path: "{{ jb_upsource_home }}/logs"
+    state: directory
+    owner: "{{ jb_upsource_user }}"
+    group: "{{ jb_upsource_group }}"
+    mode: 0755
+
 - name: Symlink logs to regular place
   file:
     src: "{{ jb_upsource_home }}/logs"
@@ -36,8 +44,12 @@
     dest: /etc/systemd/system/jetbrains-upsource.service
     mode: 0755
 
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
 - name: stop service if running
-  service:
+  systemd:
     name: jetbrains-upsource
     state: stopped
 
@@ -84,7 +96,7 @@
     recurse: yes
 
 - name: Ensure upsource server is up and running
-  service:
+  systemd:
     name: jetbrains-upsource
     state: started
     enabled: yes
